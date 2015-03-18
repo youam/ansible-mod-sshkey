@@ -1,5 +1,35 @@
 #!/usr/bin/python
 
+DOCUMENTATION = '''
+---
+author: Uli Martens
+module: sshkey
+short_description: Create ssh keys
+description:
+  - "This module creates ssh keys."
+version_added: "1.9"
+options:
+  dest:
+    description:
+    - The ssh key file to create or remove
+    required: true
+  pub_mode:
+    description:
+    - The file mode of the public key of this key
+    required: false
+  state:
+    choices: [ "absent", "present" ]
+    description:
+    - If the ssh key should be present or absent - default present
+    required: false
+  others:
+    description:
+    - all arguments accepted by the M(file) module also work here
+    required: false
+notes:
+  - This module does not yet allow explicit setting of key type, bit sizes, key comment etc.
+'''
+
 import os
 
 def main():
