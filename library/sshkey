@@ -6,6 +6,7 @@ def main():
     module = AnsibleModule(
        argument_spec = dict(
            dest=dict(type='str', required=True),
+           state=dict(type='str', choices=['absent', 'present'], default='present'),
        ),
     )
 
@@ -14,9 +15,15 @@ def main():
 
     dest = module.params['dest']
 
-    if not os.path.exists(dest):
-        module.run_command('%s -f %s -N ""'%(sshkeygen, dest))
-        changed=True
+    if module.params['state'] == 'present':
+        if not os.path.exists(dest):
+            module.run_command('%s -f %s -N ""'%(sshkeygen, dest))
+            changed=True
+
+    if module.params['state'] == 'absent':
+        if os.path.exists(dest):
+            os.remove(dest)
+            changed = True
 
     module.exit_json(changed=changed)
 
