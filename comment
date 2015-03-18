@@ -1,0 +1,13 @@
+- leicht verständlich im playbook, einfach zu schreiben
+- schlecht parsebarer output:
+
+changed: [localhost] => {"changed": true, "cmd": "ssh-keygen -f ~/.ssh/gitolite -N \"\"", "delta": "0:00:00.097937", "end": "2015-03-18 11:35:17.299999", "rc": 0, "start": "2015-03-18 11:35:17.202062", "stderr": "", "stdout": "Generating public/private rsa key pair.\nYour identification has been saved in /home/lbhnz/.ssh/gitolite.\nYour public key has been saved in /home/lbhnz/.ssh/gitolite.pub.\nThe key fingerprint is:\na1:fd:2f:dd:05:1d:89:32:f1:25:93:61:e1:f8:e6:7b lbhnz@aurnia\nThe key's randomart image is:\n+---[RSA 2048]----+\n|           ..*=..|\n|           o=o+o |\n|        .  .oo ..|\n|       o .  . . .|\n|      . S    o . |\n|         .  o   .|\n|          .. o . |\n|          ... oE |\n|           ....  |\n+-----------------+", "warnings": []}
+
+- nicht idempotent:
+
+failed: [localhost] => {"changed": true, "cmd": "ssh-keygen -f ~/.ssh/gitolite -N \"\"", "delta": "0:00:00.091497", "end": "2015-03-18 11:36:09.731031", "rc": 1, "start": "2015-03-18 11:36:09.639534", "warnings": []}
+stdout: Generating public/private rsa key pair.
+/home/lbhnz/.ssh/gitolite already exists.
+Overwrite (y/n)? 
+
+
