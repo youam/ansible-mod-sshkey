@@ -2,4 +2,4 @@
 
 - hosts: localhost
   tasks:
-    - sshkey: dest=/home/lbhnz/.ssh/gitolite
+    - sshkey: dest=/home/lbhnz/.ssh/gitolite mode=400 pub_mode=444

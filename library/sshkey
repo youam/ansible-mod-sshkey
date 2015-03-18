@@ -6,6 +6,7 @@ def main():
     module = AnsibleModule(
        argument_spec = dict(
            dest=dict(type='str', required=True),
+           pub_mode=dict(type='str', required=False),
            state=dict(type='str', choices=['absent', 'present'], default='present'),
        ),
        add_file_common_args=True,
@@ -17,7 +18,6 @@ def main():
 
     dest = module.params['dest']
 
-
     if module.params['state'] == 'present':
         if not os.path.exists(dest):
             if module.check_mode:
@@ -27,7 +27,14 @@ def main():
 
         file_args = module.load_file_common_arguments(module.params)
 
+        pub_args = file_args.copy()
+        pub_args['path'] = pub_args['path'] + '.pub'
+        if module.params['pub_mode'] is not None:
+            pub_args['mode'] = module.params['pub_mode']
+
         changed = module.set_fs_attributes_if_different(file_args, changed)
+
+        changed = module.set_fs_attributes_if_different(pub_args, changed)
 
     if module.params['state'] == 'absent':
         if os.path.exists(dest):
