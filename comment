@@ -1,6 +1,4 @@
-- playbook sauberer, verschiebung der logik in eigenes modul
-- idempotent (fast)
-- immer noch schlechter output
-
-- check mode unbrauchbar
-- fuer wenig logik viel boilerplate im shellscript
+- effektiv kein status-output mehr
+- boilerplate sehr reduziert, kommt aus ansible selbst
+- immer noch kein checkmode
+- tilde-expansion in filename funktioniert nicht mehr

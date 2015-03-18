@@ -1,51 +1,26 @@
-#!/bin/bash
+#!/usr/bin/python
 
-function json_fail(){
-    msg="$*"
-    cat <<EOF
-{
-  "failed" : true,
-  "msg" : "$msg"
-}
-EOF
-    exit 1
-}
+import os
 
-function json_changed(){
-    msg="$*"
-    cat <<EOF
-{
-  "changed": true,
-  "failed": false,
-  "msg": "$msg"
-}
-EOF
-}
+def main():
+    module = AnsibleModule(
+       argument_spec = dict(
+           dest=dict(type='str', required=True),
+       ),
+    )
 
-function json_ok(){
-    msg="$*"
-    cat <<EOF
-{
-  "changed": false,
-  "failed": false,
-  "msg": "$msg"
-}
-EOF
-}
+    changed = False
+    sshkeygen = module.get_bin_path('ssh-keygen', True)
 
-function missing_argument(){
-    json_fail "Missing required arguments '$1'"
-}
+    dest = module.params['dest']
 
-[ -f $1 ] && source $1 || eval $*
+    if not os.path.exists(dest):
+        module.run_command('%s -f %s -N ""'%(sshkeygen, dest))
+        changed=True
+
+    module.exit_json(changed=changed)
 
 
-[ -z "$dest" ] && missing_argument dest
-
-if [ -e "$dest" ]; then
-	json_ok "Target already exists"
-else
-	ssh-keygen -f "$dest" -t rsa -N ''
-fi
-
-
+# this is magic, see lib/ansible/module_common.py
+#<<INCLUDE_ANSIBLE_MODULE_COMMON>>
+main()

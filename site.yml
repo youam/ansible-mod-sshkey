@@ -2,4 +2,4 @@
 
 - hosts: localhost
   tasks:
-    - sshkey: dest=~/.ssh/gitolite
+    - sshkey: dest=/home/lbhnz/.ssh/gitolite
