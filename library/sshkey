@@ -25,7 +25,7 @@ def main():
             module.run_command('%s -f %s -N ""'%(sshkeygen, dest))
             changed=True
 
-        file_args = module.load_common_arguments(module.params)
+        file_args = module.load_file_common_arguments(module.params)
 
         changed = module.set_fs_attributes_if_different(file_args, changed)
 
