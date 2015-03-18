@@ -1,4 +1,1 @@
 - effektiv kein status-output mehr
-- boilerplate sehr reduziert, kommt aus ansible selbst
-- immer noch kein checkmode
-- tilde-expansion in filename funktioniert nicht mehr

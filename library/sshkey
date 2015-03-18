@@ -8,6 +8,7 @@ def main():
            dest=dict(type='str', required=True),
            state=dict(type='str', choices=['absent', 'present'], default='present'),
        ),
+       supports_check_mode=True,
     )
 
     changed = False
@@ -15,14 +16,18 @@ def main():
 
     dest = module.params['dest']
 
+
     if module.params['state'] == 'present':
         if not os.path.exists(dest):
+            if module.check_mode:
+                module.exit_json(changed=True)
             module.run_command('%s -f %s -N ""'%(sshkeygen, dest))
             changed=True
 
     if module.params['state'] == 'absent':
         if os.path.exists(dest):
-            os.remove(dest)
+            if not module.check_mode:
+                os.remove(dest)
             changed = True
 
     module.exit_json(changed=changed)
