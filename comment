@@ -1,8 +1,6 @@
-- nicht mehr ganz so leicht verständlich
+- playbook sauberer, verschiebung der logik in eigenes modul
 - idempotent (fast)
 - immer noch schlechter output
 
-ok: [localhost] => {"changed": false, "cmd": "ssh-keygen -f ~/.ssh/gitolite -N \"\"", "rc": 0, "stderr": false, "stdout": "skipped, since /home/lbhnz/.ssh/gitolite exists"}
-
 - check mode unbrauchbar
-(immer noch)
+- fuer wenig logik viel boilerplate im shellscript

@@ -1,0 +1,51 @@
+#!/bin/bash
+
+function json_fail(){
+    msg="$*"
+    cat <<EOF
+{
+  "failed" : true,
+  "msg" : "$msg"
+}
+EOF
+    exit 1
+}
+
+function json_changed(){
+    msg="$*"
+    cat <<EOF
+{
+  "changed": true,
+  "failed": false,
+  "msg": "$msg"
+}
+EOF
+}
+
+function json_ok(){
+    msg="$*"
+    cat <<EOF
+{
+  "changed": false,
+  "failed": false,
+  "msg": "$msg"
+}
+EOF
+}
+
+function missing_argument(){
+    json_fail "Missing required arguments '$1'"
+}
+
+[ -f $1 ] && source $1 || eval $*
+
+
+[ -z "$dest" ] && missing_argument dest
+
+if [ -e "$dest" ]; then
+	json_ok "Target already exists"
+else
+	ssh-keygen -f "$dest" -t rsa -N ''
+fi
+
+

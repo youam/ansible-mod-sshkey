@@ -2,6 +2,4 @@
 
 - hosts: localhost
   tasks:
-    - shell: ssh-keygen -f ~/.ssh/gitolite -N ""
-      args:
-        creates: /home/lbhnz/.ssh/gitolite
+    - sshkey: dest=~/.ssh/gitolite
