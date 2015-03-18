@@ -17,6 +17,7 @@ def main():
     sshkeygen = module.get_bin_path('ssh-keygen', True)
 
     dest = module.params['dest']
+    pubkey = None
 
     if module.params['state'] == 'present':
         if not os.path.exists(dest):
@@ -36,13 +37,17 @@ def main():
 
         changed = module.set_fs_attributes_if_different(pub_args, changed)
 
+        with open(pub_args['path'], 'r') as f:
+            pubkey = f.read()
+
+
     if module.params['state'] == 'absent':
         if os.path.exists(dest):
             if not module.check_mode:
                 os.remove(dest)
             changed = True
 
-    module.exit_json(changed=changed)
+    module.exit_json(changed=changed,pubkey=pubkey)
 
 
 # this is magic, see lib/ansible/module_common.py
