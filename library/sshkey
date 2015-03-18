@@ -8,6 +8,7 @@ def main():
            dest=dict(type='str', required=True),
            state=dict(type='str', choices=['absent', 'present'], default='present'),
        ),
+       add_file_common_args=True,
        supports_check_mode=True,
     )
 
@@ -23,6 +24,10 @@ def main():
                 module.exit_json(changed=True)
             module.run_command('%s -f %s -N ""'%(sshkeygen, dest))
             changed=True
+
+        file_args = module.load_common_arguments(module.params)
+
+        changed = module.set_fs_attributes_if_different(file_args, changed)
 
     if module.params['state'] == 'absent':
         if os.path.exists(dest):
