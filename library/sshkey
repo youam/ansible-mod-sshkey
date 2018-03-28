@@ -1,4 +1,11 @@
 #!/usr/bin/python
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
+ANSIBLE_METADATA = {'metadata_version': '1.1',
+                    'status': ['preview'],
+                    'supported_by': 'community'}
+
 
 DOCUMENTATION = '''
 ---
@@ -32,6 +39,8 @@ notes:
 
 import os
 
+from ansible.module_utils.basic import AnsibleModule
+
 def main():
     module = AnsibleModule(
        argument_spec = dict(
@@ -44,7 +53,7 @@ def main():
     )
 
     changed = False
-    sshkeygen = module.get_bin_path('ssh-keygen', True)
+    sshkeygen = module.get_bin_path('ssh-keygen', required=True)
 
     dest = module.params['dest']
     pubkey = None
@@ -80,6 +89,5 @@ def main():
     module.exit_json(changed=changed,pubkey=pubkey)
 
 
-# this is magic, see lib/ansible/module_common.py
-#<<INCLUDE_ANSIBLE_MODULE_COMMON>>
-main()
+if __name__ == '__main__':
+    main()
