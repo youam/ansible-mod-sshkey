@@ -61,7 +61,7 @@ def main():
     if module.params['state'] == 'present':
         if not os.path.exists(dest):
             if module.check_mode:
-                module.exit_json(changed=True)
+                module.exit_json(changed=True,msg='can not create key in check mode')
             module.run_command('%s -f %s -N ""'%(sshkeygen, dest))
             changed=True
 
