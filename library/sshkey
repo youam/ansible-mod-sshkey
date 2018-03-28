@@ -77,7 +77,7 @@ def main():
         changed = module.set_fs_attributes_if_different(pub_args, changed)
 
         with open(pub_args['path'], 'r') as f:
-            pubkey = f.read()
+            pubkey = f.read().rstrip()
 
 
     if module.params['state'] == 'absent':
